@@ -1,0 +1,56 @@
+#############################################################################################################
+# model with functions as variable parameter included
+# three examples of functions: a random number, a time related input or 
+# a value related input 
+# distribution functions generates vectors. One can add additional computations like mean, max or mode
+# based on inversegamma and PERT
+# for more inspiration see also:
+# https://stackoverflow.com/questions/21557634/using-a-time-series-of-parameters-to-solve-ode-in-r#21563434
+# ###########################################################################################################
+
+library(invgamma)
+library(mc2d)
+library(deSolve)
+
+times <- seq(0, 100, by = 1)
+yini <- c(D1=0,D2=0, D3=0)
+
+pars <- c(sigma_i = -0.02136884,
+          a = 0.01,
+          b = 0.25)
+
+#rinvgamma(number_of_samples, alpha(shape), beta(rate)) -> mean = beta / (alpha-1); mode = beta / (alpha+1)
+
+randomgamfun <- function(){
+    myresult <- rinvgamma(1, 3.0, 0.3)
+    return(myresult)
+}
+
+xrelatedgamfunc <- function(x){
+  myresult <- dinvgamma(x, 3.0, 0.3)
+  return(myresult)
+}
+
+timerelatedpertfunc <- function(t){
+    myresult <- dpert(t, min=-1, mode=0, max=2, shape=3)
+    return(myresult)
+}
+
+
+odefun <- function(t,y,parms) {
+  with(as.list(c(t,y,parms)),{
+    D1  <- randomgamfun()
+    #D1  <- xrelatedgamfunc(D3)
+    D2  <- timerelatedpertfunc(t) 
+    D3  <- D1 / a * b - sigma_i
+    res <-c(D1,D2, D3)
+    list(res)
+  })
+}
+
+test <- ode(func = odefun, 
+            y = yini, 
+            parms = pars, 
+            times = times)
+
+plot(test)

@@ -1,0 +1,83 @@
+---
+title: "title "
+author:
+- "me "
+date: "date"
+output: pdf_document
+---
+\pagenumbering{gobble}
+
+
+
+\pagenumbering{gobble}
+
+
+\newpage
+
+\begin{flushright}
+title\linebreak
+student\linebreak
+Bio-informatica\linebreak
+Life science en technology\linebreak
+Fenna Feenstra\linebreak
+date\linebreak
+\end{flushright}
+
+\newpage
+
+##Afkortingen en symbolen
+
+Betekenis                                   |Afkorting
+--------------------------------------------|----
+Chronic obstructive pulmonary disease       |COPD
+
+
+\pagenumbering{arabic}
+\setcounter{page}{4}
+
+Hoofdstuk                                               |pagina
+--------------------------------------------------------|-----
+>   [Samenvatting](#samenvatting)| 2
+>   [Afkortingen en symbolen](#afkortingen-en-symbolen)| 3
+1.  [Inleiding](#inleiding)| 5
+2.  [Theorie](#theorie)| 5
+3.  [Materiaal en methoden](#materiaal-en-methoden)| 6
+4.  [Resultaten](#resultaten)| 10
+5.  [Conclusie en discussie](#conclusie-en-discussie)| 21
+6.  [Bibliografie](#bibliografie)| 22
+7.  [Bijlagen](#bijlagen)| 22
+
+\newpage
+
+
+\begin{center}\includegraphics[width=12cm]{diagram.pdf}\end{center}
+
+\begin{center}\textit{\textbf{figuur 1:} Een beschrijvend diagram van het model.}\end{center}
+
+De differentiaalvergelijkingen die het model omschrijven behelzen de volgende:
+
+$$\frac{\Delta mRNA_R}{\Delta t} = k_{s\_Rm}\cdot\left(1-\frac{DR(N)}{IC_{50\_Rm}+DR(N)}\right) - k_{d\_Rm} \cdot mRNA_R$$
+
+\begin{center}\textit{\textbf{Tabel 1:} Variabelen en parameters}\end{center}
+
+Parameters                      | Waarden
+--------------------------------|-------------------------
+$A_{b}$ (eenheid)               | 
+
+
+###subkop
+##subkop
+#kop
+
+tekst
+
+\newpage
+
+In **bold** 
+
+In figuur x is te zien dat $A_{b}$.....
+
+
+
+
+

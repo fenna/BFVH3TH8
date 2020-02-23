@@ -1,0 +1,77 @@
+###################################      
+# Course: Theme 8         
+# original author: S. van der Hoek
+###################################
+
+#######################
+###    Libraries    ###
+#######################
+
+library(deSolve)
+
+#######################
+###    Functions    ###
+#######################
+
+#Function that defines the system
+func <- function(time, state, pars) {
+  with(as.list(c(state, pars)), {
+    dR <- -r * R + m
+    return(as.list(dR))
+  })
+}
+
+#######################
+###   Main script   ###
+#######################
+
+#Defines variable initial state
+state <- c(R=100)
+
+#Defines timespan that is used
+times <- seq(0, 6, by = 0.1)
+
+#Defines variables for the different conditions
+parameters.steady <- c(m = 200, r = 2)
+parameters.increasing <- c(m = 250, r = 2)
+parameters.decreasing <- c(m = 150, r = 2)
+
+#List containing all different parameter conditions
+parameters.list <- list(parameters.steady, parameters.increasing, parameters.decreasing)
+
+#Names used in the legend for these different conditions (NOTE: it uses the order from parameters.list!!!)
+parameters.list.names <- c('steady-state', 'increasing over time', 'decreasing over time')
+
+#Defines all colors needed
+line.colors <- rainbow(length(parameters.list))
+
+#Creates list to save results from the system simulation in
+output <- list()
+#Calculates the results and adds them to the list
+for(i in 1:length(parameters.list)) {
+  output[[i]] <- ode(state, times, func, parameters.list[[i]])
+}
+
+#Calculates the max & min for the y-axis needed
+output.min <- min( sapply(output, function(x) { min(x[,2]) }) )
+output.max <- max( sapply(output, function(x) { max(x[,2]) }) )
+
+#Creates the plot
+plot(output[[1]],
+     main = 'amount of mRNA transcripts over time',
+     xlab = 'timepoints',
+     ylab = 'number of mRNA transcripts',
+     col = line.colors[1],
+     xlim = c(0, max(times)),
+     ylim = c(output.min, output.max))
+
+#Adds lines for each additional condition
+for(i in 2:length(parameters.list)) {
+  lines(output[[i]], col=line.colors[i])
+}
+
+#Adds legend (uses parameters.list.names as defined above)
+legend(max(times)-max(times)*0.35,
+       output.max-output.max*0.02,
+       legend = parameters.list.names,
+       fill = line.colors)
